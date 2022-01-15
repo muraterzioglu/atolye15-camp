@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database.module';
+import { AvatarModule } from './modules/avatar/avatar.module';
 
 @Module({
   imports: [
@@ -17,7 +18,9 @@ import { DatabaseModule } from './database.module';
       debug: true,
       playground: true,
     }),
-    DatabaseModule,
+    AvatarModule, // Letter Avatar API
+    DatabaseModule, // Database Connection
+    // Modules
     UsersModule,
   ],
   controllers: [AppController],
