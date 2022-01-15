@@ -2,28 +2,70 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type Author {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Content {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Reaction {
   """Example field (placeholder)"""
   exampleField: Int!
 }
 
 type Query {
-  users: [User!]!
-  user(id: Int!): User!
+  authors: [Author!]!
+  author(id: Int!): Author!
+  contents: [Content!]!
+  content(id: Int!): Content!
+  reactions: [Reaction!]!
+  reaction(id: Int!): Reaction!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  createAuthor(createAuthorInput: CreateAuthorInput!): Author!
+  updateAuthor(updateAuthorInput: UpdateAuthorInput!): Author!
+  removeAuthor(id: Int!): Author!
+  createContent(createContentInput: CreateContentInput!): Content!
+  updateContent(updateContentInput: UpdateContentInput!): Content!
+  removeContent(id: Int!): Content!
+  createReaction(createReactionInput: CreateReactionInput!): Reaction!
+  updateReaction(updateReactionInput: UpdateReactionInput!): Reaction!
+  removeReaction(id: Int!): Reaction!
 }
 
-input CreateUserInput {
+input CreateAuthorInput {
   """Example field (placeholder)"""
   exampleField: Int!
 }
 
-input UpdateUserInput {
+input UpdateAuthorInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateContentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateContentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateReactionInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateReactionInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

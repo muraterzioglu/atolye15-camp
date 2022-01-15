@@ -29,6 +29,8 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.2",
     "apollo-server-express": "^3.6.1",
+    "canvas": "^2.8.0",
+    "fs": "^0.0.1-security",
     "graphql": "^15",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
