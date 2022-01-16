@@ -10,10 +10,14 @@ import { ContentsService } from './contents.service';
 import { Contents } from './entities/content.entity';
 import { CreateContentInput } from './dto/create-content.input';
 import { Author } from '../authors/entities/author.entity';
+import { AuthorsService } from '../authors/authors.service';
 
 @Resolver(() => Contents)
 export class ContentsResolver {
-  constructor(private readonly contentsService: ContentsService) {}
+  constructor(
+    private readonly contentsService: ContentsService,
+    private readonly authorService: AuthorsService,
+  ) {}
 
   @Mutation(() => Contents)
   createContent(
@@ -33,7 +37,7 @@ export class ContentsResolver {
   @ResolveField('content_author', () => Author)
   async content_author(@Parent() contents: Contents): Promise<Author> {
     const { content_author } = contents;
-    return this.contentsService.postAuthor(content_author);
+    return this.authorService.findOne(content_author);
   }
 
   @Query(() => Contents, { name: 'content' })
