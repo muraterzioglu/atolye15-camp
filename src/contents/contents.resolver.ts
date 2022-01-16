@@ -1,42 +1,38 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ContentsService } from './contents.service';
-import { Content } from './entities/content.entity';
+import { Contents } from './entities/content.entity';
 import { CreateContentInput } from './dto/create-content.input';
-import { UpdateContentInput } from './dto/update-content.input';
 
-@Resolver(() => Content)
+@Resolver(() => Contents)
 export class ContentsResolver {
   constructor(private readonly contentsService: ContentsService) {}
 
-  @Mutation(() => Content)
+  @Mutation(() => Contents)
   createContent(
     @Args('createContentInput') createContentInput: CreateContentInput,
   ) {
     return this.contentsService.create(createContentInput);
   }
 
-  @Query(() => [Content], { name: 'contents' })
-  findAll() {
-    return this.contentsService.findAll();
-  }
-
-  @Query(() => Content, { name: 'content' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.contentsService.findOne(id);
-  }
-
-  @Mutation(() => Content)
-  updateContent(
-    @Args('updateContentInput') updateContentInput: UpdateContentInput,
+  @Query(() => [Contents], { name: 'contents' })
+  async findAll(
+    @Args('content_type', { nullable: true, type: () => String })
+    content_type: 'comment' | 'post',
   ) {
-    return this.contentsService.update(
-      updateContentInput.id,
-      updateContentInput,
-    );
+    return await this.contentsService.findAll(content_type);
   }
 
-  @Mutation(() => Content)
-  removeContent(@Args('id', { type: () => Int }) id: number) {
-    return this.contentsService.remove(id);
+  @Query(() => Contents, { name: 'content' })
+  async findOne(
+    @Args('content_id', { type: () => String }) content_id: string,
+  ) {
+    return await this.contentsService.findOne(content_id);
+  }
+
+  @Mutation(() => Contents)
+  removeContent(
+    @Args('content_id', { type: () => String }) content_id: string,
+  ) {
+    return this.contentsService.remove(content_id);
   }
 }
