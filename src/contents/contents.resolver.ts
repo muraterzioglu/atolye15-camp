@@ -1,7 +1,15 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { ContentsService } from './contents.service';
 import { Contents } from './entities/content.entity';
 import { CreateContentInput } from './dto/create-content.input';
+import { Author } from '../authors/entities/author.entity';
 
 @Resolver(() => Contents)
 export class ContentsResolver {
@@ -20,6 +28,12 @@ export class ContentsResolver {
     content_type: 'comment' | 'post',
   ) {
     return await this.contentsService.findAll(content_type);
+  }
+
+  @ResolveField('content_author', () => Author)
+  async content_author(@Parent() contents: Contents): Promise<Author> {
+    const { content_author } = contents;
+    return this.contentsService.postAuthor(content_author);
   }
 
   @Query(() => Contents, { name: 'content' })

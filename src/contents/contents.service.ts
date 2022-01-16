@@ -3,17 +3,21 @@ import { CreateContentInput } from './dto/create-content.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Contents } from './entities/content.entity';
 import { DeleteResult, Repository } from 'typeorm';
+import { Author } from '../authors/entities/author.entity';
 
 @Injectable()
 export class ContentsService {
   constructor(
     @InjectRepository(Contents)
     private readonly contentsRepository: Repository<Contents>,
+
+    @InjectRepository(Author)
+    private readonly authorRepository: Repository<Author>,
   ) {}
 
   /*
     TODO: Posts also returns their reactions, authors and comments
-      -> Authors, Comments, Reactions by line
+      -> Comments, Reactions by line
   */
 
   async create(createContentInput: CreateContentInput): Promise<Contents> {
@@ -32,12 +36,17 @@ export class ContentsService {
     }
   }
 
-  async findAll(content_type: 'comment' | 'post'): Promise<Contents[]> {
-    return await this.contentsRepository.find({ content_type });
+  async findAll(content_type: 'comment' | 'post' | 'all'): Promise<Contents[]> {
+    if (content_type === 'all') return await this.contentsRepository.find();
+    else return await this.contentsRepository.find({ content_type });
   }
 
   async findOne(content_id: string): Promise<Contents> {
     return await this.contentsRepository.findOne(content_id);
+  }
+
+  async postAuthor(author_id: string): Promise<Author> {
+    return await this.authorRepository.findOne({ author_id });
   }
 
   async remove(id: string): Promise<DeleteResult> {

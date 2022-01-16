@@ -1,5 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Author } from '../../authors/entities/author.entity';
 
 @Entity()
 @ObjectType()
@@ -13,7 +14,7 @@ export class Contents {
   content_type: 'comment' | 'post';
 
   @Column('uuid')
-  @Field(() => String, { description: 'Author of the content' })
+  @Field(() => Author, { description: 'Author of the content' })
   content_author: string;
 
   @Column('uuid')
