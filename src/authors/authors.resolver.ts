@@ -11,6 +11,7 @@ import { Author } from './entities/author.entity';
 import { CreateAuthorInput } from './dto/create-author.input';
 import { Contents } from '../contents/entities/content.entity';
 import { ContentsService } from '../contents/contents.service';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 @Resolver(() => Author)
 export class AuthorsResolver {
@@ -55,7 +56,26 @@ export class AuthorsResolver {
   @Mutation(() => Author)
   async removeAuthor(
     @Args('author_id', { type: () => String }) author_id: string,
-  ) {
-    return await this.authorsService.remove(author_id);
+  ): Promise<Author> {
+    const authorThemself = await this.authorsService.findOne(author_id);
+    const authorContents = await this.contentsService.findAuthorContents(
+      author_id,
+    );
+
+    if (!authorThemself) {
+      throw new HttpException(
+        'Forbidden Action: There is no user with this Id.',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+
+    if (authorContents[0] == undefined) {
+      return await this.authorsService.remove(author_id);
+    } else {
+      throw new HttpException(
+        'Forbidden: Author still have posts or comments.',
+        HttpStatus.FORBIDDEN,
+      );
+    }
   }
 }

@@ -50,6 +50,10 @@ export class ContentsService {
     });
   }
 
+  async findAuthorContents(content_author: string): Promise<Contents[]> {
+    return await this.contentsRepo.find({ content_author });
+  }
+
   async remove(id: string): Promise<DeleteResult> {
     return await this.contentsRepo.delete(id);
   }

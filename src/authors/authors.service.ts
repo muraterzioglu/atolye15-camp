@@ -1,18 +1,14 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateAuthorInput } from './dto/create-author.input';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Author } from './entities/author.entity';
-import { Contents } from '../contents/entities/content.entity';
 
 @Injectable()
 export class AuthorsService {
   constructor(
     @InjectRepository(Author)
     private readonly authorRepository: Repository<Author>,
-
-    @InjectRepository(Contents)
-    private readonly contentsRepository: Repository<Contents>,
   ) {}
 
   async create(createAuthorInput: CreateAuthorInput): Promise<Author> {
@@ -28,16 +24,11 @@ export class AuthorsService {
     return await this.authorRepository.findOne(id);
   }
 
-  async remove(content_author: string): Promise<DeleteResult> {
-    const contents = await this.contentsRepository.find({ content_author });
+  async remove(content_author: string): Promise<Author> {
+    const author = this.authorRepository.findOne(content_author);
+    // For proper response we save user before delete
 
-    if (contents[0] == undefined) {
-      return await this.authorRepository.delete(content_author);
-    } else {
-      throw new HttpException(
-        'Forbidden: Author still have posts or comments.',
-        HttpStatus.FORBIDDEN,
-      );
-    }
+    await this.authorRepository.delete(content_author);
+    return author;
   }
 }

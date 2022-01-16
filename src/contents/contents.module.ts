@@ -4,9 +4,10 @@ import { ContentsResolver } from './contents.resolver';
 import { Contents } from './entities/content.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthorsService } from '../authors/authors.service';
+import { Author } from '../authors/entities/author.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Contents])],
+  imports: [TypeOrmModule.forFeature([Contents, Author])],
   providers: [ContentsResolver, ContentsService, AuthorsService],
 })
 export class ContentsModule {}
