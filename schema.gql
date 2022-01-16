@@ -44,6 +44,9 @@ type Contents {
   """Full context of the content"""
   content_context: String!
 
+  """All the comments made for post"""
+  content_comments: [Contents!]!
+
   """All the reactions made by author"""
   content_reactions: [Reaction!]!
 }

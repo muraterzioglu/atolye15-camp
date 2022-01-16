@@ -43,6 +43,13 @@ export class ContentsService {
     });
   }
 
+  async findPostComments(content_id: string): Promise<Contents[]> {
+    return await this.contentsRepo.find({
+      content_relation: content_id,
+      content_type: 'comment',
+    });
+  }
+
   async findAuthorComments(content_author: string): Promise<Contents[]> {
     return await this.contentsRepo.find({
       content_author: content_author,
