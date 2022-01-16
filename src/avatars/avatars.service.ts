@@ -18,6 +18,7 @@ export class AvatarsService {
     }
 
     // Colors
+    // For seed generation we make the name lover case to prevent type errors like "JoHn DoE"
     const colorBg = seedColor(name.toLocaleLowerCase()).toHex();
     const colorFont = invertColor(colorBg);
 
