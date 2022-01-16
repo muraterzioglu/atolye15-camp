@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReactionInput } from './dto/create-reaction.input';
-import { UpdateReactionInput } from './dto/update-reaction.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Reaction } from './entities/reaction.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ReactionsService {
-  create(createReactionInput: CreateReactionInput) {
-    return 'This action adds a new reaction';
+  constructor(
+    @InjectRepository(Reaction)
+    private readonly reactionsRepo: Repository<Reaction>,
+  ) {}
+
+  async create(createReactionInput: CreateReactionInput): Promise<Reaction> {
+    const reaction = this.reactionsRepo.create(createReactionInput);
+    return await this.reactionsRepo.save(reaction);
   }
 
-  findAll() {
-    return `This action returns all reactions`;
+  async findAll(): Promise<Reaction[]> {
+    return await this.reactionsRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reaction`;
+  async findOne(id_reaction: string): Promise<Reaction> {
+    return await this.reactionsRepo.findOne(id_reaction);
   }
 
-  update(id: number, updateReactionInput: UpdateReactionInput) {
-    return `This action updates a #${id} reaction`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} reaction`;
+  async remove(id_reaction: string): Promise<Reaction> {
+    const reaction = this.reactionsRepo.findOne(id_reaction);
+    await this.reactionsRepo.delete(id_reaction);
+    return reaction;
   }
 }

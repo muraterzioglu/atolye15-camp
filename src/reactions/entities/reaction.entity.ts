@@ -1,8 +1,9 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Author } from '../../authors/entities/author.entity';
 import { Contents } from '../../contents/entities/content.entity';
 
+@Entity('reactions')
 @ObjectType()
 export class Reaction {
   @PrimaryGeneratedColumn('uuid')

@@ -1,42 +1,60 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { ReactionsService } from './reactions.service';
 import { Reaction } from './entities/reaction.entity';
 import { CreateReactionInput } from './dto/create-reaction.input';
-import { UpdateReactionInput } from './dto/update-reaction.input';
+import { Author } from '../authors/entities/author.entity';
+import { AuthorsService } from '../authors/authors.service';
+import { ContentsService } from '../contents/contents.service';
+import { Contents } from '../contents/entities/content.entity';
 
 @Resolver(() => Reaction)
 export class ReactionsResolver {
-  constructor(private readonly reactionsService: ReactionsService) {}
+  constructor(
+    private readonly reactionsService: ReactionsService,
+    private readonly authorsService: AuthorsService,
+    private readonly contentsService: ContentsService,
+  ) {}
 
   @Mutation(() => Reaction)
-  createReaction(
+  async createReaction(
     @Args('createReactionInput') createReactionInput: CreateReactionInput,
-  ) {
-    return this.reactionsService.create(createReactionInput);
+  ): Promise<Reaction> {
+    return await this.reactionsService.create(createReactionInput);
   }
 
   @Query(() => [Reaction], { name: 'reactions' })
-  findAll() {
-    return this.reactionsService.findAll();
+  async findAll() {
+    return await this.reactionsService.findAll();
   }
 
   @Query(() => Reaction, { name: 'reaction' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.reactionsService.findOne(id);
-  }
-
-  @Mutation(() => Reaction)
-  updateReaction(
-    @Args('updateReactionInput') updateReactionInput: UpdateReactionInput,
+  async findOne(
+    @Args('id_reaction', { type: () => String }) id_reaction: string,
   ) {
-    return this.reactionsService.update(
-      updateReactionInput.id,
-      updateReactionInput,
-    );
+    return await this.reactionsService.findOne(id_reaction);
+  }
+
+  @ResolveField('id_author', () => Author)
+  async id_author(@Parent() { id_author }: Reaction): Promise<Author> {
+    return await this.authorsService.findOne(id_author);
+  }
+
+  @ResolveField('id_content', () => Contents)
+  async id_content(@Parent() { id_content }: Reaction): Promise<Contents> {
+    return await this.contentsService.findOne(id_content);
   }
 
   @Mutation(() => Reaction)
-  removeReaction(@Args('id', { type: () => Int }) id: number) {
-    return this.reactionsService.remove(id);
+  removeReaction(
+    @Args('id_reaction', { type: () => String }) id_reaction: string,
+  ) {
+    return this.reactionsService.remove(id_reaction);
   }
 }
