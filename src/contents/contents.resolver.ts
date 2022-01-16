@@ -32,18 +32,18 @@ export class ContentsResolver {
 
   @Query(() => [Contents], { name: 'contents' })
   async findAll(
-    @Args('content_type', { nullable: true, type: () => String })
+    @Args('type', { nullable: true, type: () => String })
     content_type: 'comment' | 'post' | 'all',
   ) {
     return await this.contentsService.findAll(content_type);
   }
 
-  @ResolveField('content_author', () => Author)
+  @ResolveField('author', () => Author)
   async content_author(@Parent() { author }: Contents): Promise<Author> {
     return this.authorService.findOne(author);
   }
 
-  @ResolveField('content_comments', () => [Contents], {
+  @ResolveField('comments', () => [Contents], {
     description: 'All the comments made for post',
   })
   async content_comments(@Parent() { id }: Contents): Promise<Contents[]> {

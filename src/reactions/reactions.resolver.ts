@@ -35,10 +35,8 @@ export class ReactionsResolver {
   }
 
   @Query(() => Reaction, { name: 'reaction' })
-  async findOne(
-    @Args('id_reaction', { type: () => String }) id_reaction: string,
-  ) {
-    return await this.reactionsService.findOne(id_reaction);
+  async findOne(@Args('id', { type: () => String }) id: string) {
+    return await this.reactionsService.findOne(id);
   }
 
   @ResolveField('author', () => Author)
