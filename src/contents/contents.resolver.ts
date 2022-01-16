@@ -33,7 +33,7 @@ export class ContentsResolver {
   @Query(() => [Contents], { name: 'contents' })
   async findAll(
     @Args('content_type', { nullable: true, type: () => String })
-    content_type: 'comment' | 'post',
+    content_type: 'comment' | 'post' | 'all',
   ) {
     return await this.contentsService.findAll(content_type);
   }

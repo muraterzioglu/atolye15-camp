@@ -3,17 +3,12 @@ import {
   Query,
   Get,
   Response,
-  StreamableFile,
   Header,
+  StreamableFile,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { AvatarsService } from './avatars.service';
 import { Readable } from 'stream';
-
-/*
-TODO: Make Colors Random with contrast
-TODO: Make logos by size
-TODO: Connect Database and Check that if it's already make!
-*/
 
 @Controller('avatars')
 export class AvatarsController {
@@ -24,7 +19,7 @@ export class AvatarsController {
   avatar(
     @Response({ passthrough: true }) res,
     @Query('name') name: string,
-    @Query('size') size: number,
+    @Query('size', ParseIntPipe) size: number,
     @Query('shape') shape: string,
   ): StreamableFile {
     const buffer = this.avatarsService.avatar(name, size, shape);
