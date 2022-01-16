@@ -40,27 +40,25 @@ export class AuthorsResolver {
     return await this.authorsService.findOne(id);
   }
 
-  @ResolveField('author_posts', () => [Contents], {
+  @ResolveField('posts', () => [Contents], {
     description: 'All the posts made by author',
   })
-  async author_posts(@Parent() author: Author): Promise<Contents[]> {
-    const { author_id } = await author;
-    return await this.contentsService.findAuthorPosts(author_id);
+  async author_posts(@Parent() { id }: Author): Promise<Contents[]> {
+    return await this.contentsService.findAuthorPosts(id);
   }
 
-  @ResolveField('author_comments', () => [Contents], {
+  @ResolveField('comments', () => [Contents], {
     description: 'All the comments made by author',
   })
-  async author_comments(@Parent() author: Author): Promise<Contents[]> {
-    const { author_id } = await author;
-    return await this.contentsService.findAuthorComments(author_id);
+  async author_comments(@Parent() { id }: Author): Promise<Contents[]> {
+    return await this.contentsService.findAuthorComments(id);
   }
 
-  @ResolveField('author_reactions', () => [Reaction], {
-    description: 'All the reactions made by author',
+  @ResolveField('reactions', () => [Reaction], {
+    description: 'All the reactions given by author',
   })
-  async author_reactions(@Parent() { author_id }: Author): Promise<Reaction[]> {
-    return await this.reactionServices.findReactionsByAuthor(author_id);
+  async author_reactions(@Parent() { id }: Author): Promise<Reaction[]> {
+    return await this.reactionServices.findReactionsByAuthor(id);
   }
 
   @Mutation(() => Author)

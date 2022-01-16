@@ -6,17 +6,17 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class Author {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String, { description: 'Unique uuid of author' })
-  author_id: string;
+  id: string;
 
   @Column('text')
   @Field(() => String, { description: 'Firstname of the author' })
-  author_name: string;
+  name: string;
 
   @Column('text')
   @Field(() => String, { description: 'Lastname of the author' })
-  author_surname: string;
+  surname: string;
 
   @Column('text', { unique: true }) // One user per mail
   @Field(() => String, { description: 'E-Mail address of the author' })
-  author_mail: string;
+  mail: string;
 }

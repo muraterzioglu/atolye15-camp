@@ -3,9 +3,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   /*
-   * TODO: Remove underscore from queries and mutations
-   *    -> Search & Filter?
-   *    -> Fix Naming of Entities and DTO
+   * TODO: Search & Filter?
    */
   const app = await NestFactory.create(AppModule);
   await app.listen(3000);

@@ -8,15 +8,15 @@ import { Contents } from '../../contents/entities/content.entity';
 export class Reaction {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String, { description: 'Unique uuid of reaction' })
-  id_reaction: string;
+  id: string;
 
   @Column('uuid')
   @Field(() => Contents, { description: 'Content of the reaction' })
-  id_content: string;
+  content: string;
 
   @Column('uuid')
   @Field(() => Author, { description: 'Author of the reaction' })
-  id_author: string;
+  author: string;
 
   @Column('text')
   @Field(() => String, { description: 'Reaction for the content' })

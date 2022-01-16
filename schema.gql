@@ -4,62 +4,59 @@
 
 type Author {
   """Unique uuid of author"""
-  author_id: String!
+  id: String!
 
   """Firstname of the author"""
-  author_name: String!
+  name: String!
 
   """Lastname of the author"""
-  author_surname: String!
+  surname: String!
 
   """E-Mail address of the author"""
-  author_mail: String!
+  mail: String!
 
   """All the posts made by author"""
-  author_posts: [Contents!]!
+  posts: [Contents!]!
 
   """All the comments made by author"""
-  author_comments: [Contents!]!
+  comments: [Contents!]!
 
-  """All the reactions made by author"""
-  author_reactions: [Reaction!]!
+  """All the reactions given by author"""
+  reactions: [Reaction!]!
 }
 
 type Contents {
   """Unique uuid of content"""
-  content_id: String!
+  id: String!
 
   """Type of the content, post or comment"""
-  content_type: String!
+  type: String!
 
   """Author of the content"""
-  content_author: Author!
+  author: Author!
 
   """If it's a comment, define post here"""
-  content_relation: String
+  relation: String
 
   """Title of the content"""
-  content_title: String!
+  title: String!
 
   """Full context of the content"""
-  content_context: String!
+  context: String!
+  content_author: Author!
 
   """All the comments made for post"""
   content_comments: [Contents!]!
 
   """All the reactions made by author"""
-  content_reactions: [Reaction!]!
+  reactions: [Reaction!]!
 }
 
 type Reaction {
   """Unique uuid of reaction"""
-  id_reaction: String!
-
-  """Content of the reaction"""
-  id_content: Contents!
-
-  """Author of the reaction"""
-  id_author: Author!
+  id: String!
+  content: Contents!
+  author: Author!
 
   """Reaction for the content"""
   reaction: String!
@@ -69,7 +66,7 @@ type Query {
   authors: [Author!]!
   author(id: String!): Author!
   contents(content_type: String): [Contents!]!
-  content(content_id: String!): Contents!
+  content(id: String!): Contents!
   reactions: [Reaction!]!
   reaction(id_reaction: String!): Reaction!
 }
@@ -78,45 +75,48 @@ type Mutation {
   createAuthor(createAuthorInput: CreateAuthorInput!): Author!
   removeAuthor(author_id: String!): Author!
   createContent(createContentInput: CreateContentInput!): Contents!
-  removeContent(content_id: String!): Contents!
+  removeContent(id: String!): Contents!
   createReaction(createReactionInput: CreateReactionInput!): Reaction!
-  removeReaction(id_reaction: String!): Reaction!
+  removeReaction(id: String!): Reaction!
 }
 
 input CreateAuthorInput {
   """Firstname of the author"""
-  author_name: String!
+  name: String!
 
   """Lastname of the author"""
-  author_surname: String!
+  surname: String!
 
   """E-Mail address of the author, should be unique"""
-  author_mail: String!
+  mail: String!
+
+  """E-Mail address of the author, should be unique"""
+  avatar: String!
 }
 
 input CreateContentInput {
   """Type of the content, post or comment"""
-  content_type: String!
+  type: String!
 
   """Author of the content"""
-  content_author: String!
+  author: String!
 
   """Title of the content"""
-  content_title: String!
+  title: String!
 
   """Full context of the content"""
-  content_relation: String
+  relation: String
 
   """Full context of the content"""
-  content_context: String!
+  context: String!
 }
 
 input CreateReactionInput {
   """Content of the reaction"""
-  id_content: String!
+  content: String!
 
   """Author of the reaction"""
-  id_author: String!
+  author: String!
 
   """Reaction for the content"""
   reaction: String!

@@ -41,20 +41,18 @@ export class ReactionsResolver {
     return await this.reactionsService.findOne(id_reaction);
   }
 
-  @ResolveField('id_author', () => Author)
-  async id_author(@Parent() { id_author }: Reaction): Promise<Author> {
-    return await this.authorsService.findOne(id_author);
+  @ResolveField('author', () => Author)
+  async id_author(@Parent() { author }: Reaction): Promise<Author> {
+    return await this.authorsService.findOne(author);
   }
 
-  @ResolveField('id_content', () => Contents)
-  async id_content(@Parent() { id_content }: Reaction): Promise<Contents> {
-    return await this.contentsService.findOne(id_content);
+  @ResolveField('content', () => Contents)
+  async id_content(@Parent() { content }: Reaction): Promise<Contents> {
+    return await this.contentsService.findOne(content);
   }
 
   @Mutation(() => Reaction)
-  removeReaction(
-    @Args('id_reaction', { type: () => String }) id_reaction: string,
-  ) {
-    return this.reactionsService.remove(id_reaction);
+  removeReaction(@Args('id', { type: () => String }) id: string) {
+    return this.reactionsService.remove(id);
   }
 }

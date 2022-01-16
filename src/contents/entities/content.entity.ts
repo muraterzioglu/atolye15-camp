@@ -2,33 +2,33 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Author } from '../../authors/entities/author.entity';
 
-@Entity()
+@Entity('contents')
 @ObjectType()
 export class Contents {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String, { description: 'Unique uuid of content' })
-  content_id: string;
+  id: string;
 
   @Column('text')
   @Field(() => String, { description: 'Type of the content, post or comment' })
-  content_type: 'comment' | 'post';
+  type: 'comment' | 'post';
 
   @Column('uuid')
   @Field(() => Author, { description: 'Author of the content' })
-  content_author: string;
+  author: string;
 
   @Column('uuid')
   @Field(() => String, {
     nullable: true,
     description: "If it's a comment, define post here",
   })
-  content_relation: string;
+  relation: string;
 
   @Column('text')
   @Field(() => String, { description: 'Title of the content' })
-  content_title: string;
+  title: string;
 
   @Column('text')
   @Field(() => String, { description: 'Full context of the content' })
-  content_context: string;
+  context: string;
 }

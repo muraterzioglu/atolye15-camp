@@ -39,46 +39,37 @@ export class ContentsResolver {
   }
 
   @ResolveField('content_author', () => Author)
-  async content_author(@Parent() contents: Contents): Promise<Author> {
-    const { content_author } = contents;
-    return this.authorService.findOne(content_author);
+  async content_author(@Parent() { author }: Contents): Promise<Author> {
+    return this.authorService.findOne(author);
   }
 
   @ResolveField('content_comments', () => [Contents], {
     description: 'All the comments made for post',
   })
-  async content_comments(
-    @Parent() { content_id }: Contents,
-  ): Promise<Contents[]> {
-    const content = await this.contentsService.findOne(content_id);
-    if (content.content_type == 'comment') {
+  async content_comments(@Parent() { id }: Contents): Promise<Contents[]> {
+    const content = await this.contentsService.findOne(id);
+    if (content.type == 'comment') {
       throw new HttpException(
         "Forbidden Action: Comments can't have sub-comments. content_comment is only accessible by posts",
         HttpStatus.FORBIDDEN,
       );
-    } else return await this.contentsService.findPostComments(content_id);
+    } else return await this.contentsService.findPostComments(id);
   }
 
-  @ResolveField('content_reactions', () => [Reaction], {
+  @ResolveField('reactions', () => [Reaction], {
     description: 'All the reactions made by author',
   })
-  async content_reactions(
-    @Parent() { content_id }: Contents,
-  ): Promise<Reaction[]> {
-    return await this.reactionServices.findReactionsByContent(content_id);
+  async reactions(@Parent() { id }: Contents): Promise<Reaction[]> {
+    return await this.reactionServices.findReactionsByContent(id);
   }
 
   @Query(() => Contents, { name: 'content' })
-  async findOne(
-    @Args('content_id', { type: () => String }) content_id: string,
-  ) {
-    return await this.contentsService.findOne(content_id);
+  async findOne(@Args('id', { type: () => String }) id: string) {
+    return await this.contentsService.findOne(id);
   }
 
   @Mutation(() => Contents)
-  removeContent(
-    @Args('content_id', { type: () => String }) content_id: string,
-  ) {
-    return this.contentsService.remove(content_id);
+  removeContent(@Args('id', { type: () => String }) id: string) {
+    return this.contentsService.remove(id);
   }
 }

@@ -14,8 +14,8 @@ export class ContentsService {
   async create(createContentInput: CreateContentInput): Promise<Contents> {
     // Post's can't have a relation with other posts, just comments.
     if (
-      createContentInput.content_type === 'post' &&
-      createContentInput.content_relation !== null
+      createContentInput.type === 'post' &&
+      createContentInput.relation !== null
     ) {
       throw new HttpException(
         "Forbidden: Post's can't have a relation with other posts, just comments.",
@@ -27,38 +27,32 @@ export class ContentsService {
     }
   }
 
-  async findAll(content_type: 'comment' | 'post' | 'all'): Promise<Contents[]> {
-    if (content_type === 'all') return await this.contentsRepo.find();
-    else return await this.contentsRepo.find({ content_type });
+  async findAll(type: 'comment' | 'post' | 'all'): Promise<Contents[]> {
+    if (type === 'all') return await this.contentsRepo.find();
+    else return await this.contentsRepo.find({ type });
   }
 
-  async findOne(content_id: string): Promise<Contents> {
-    return await this.contentsRepo.findOne(content_id);
+  async findOne(id: string): Promise<Contents> {
+    return await this.contentsRepo.findOne(id);
   }
 
-  async findAuthorPosts(content_author: string): Promise<Contents[]> {
-    return await this.contentsRepo.find({
-      content_author: content_author,
-      content_type: 'post',
-    });
+  async findAuthorPosts(author: string): Promise<Contents[]> {
+    return await this.contentsRepo.find({ author, type: 'post' });
   }
 
   async findPostComments(content_id: string): Promise<Contents[]> {
     return await this.contentsRepo.find({
-      content_relation: content_id,
-      content_type: 'comment',
+      relation: content_id,
+      type: 'comment',
     });
   }
 
-  async findAuthorComments(content_author: string): Promise<Contents[]> {
-    return await this.contentsRepo.find({
-      content_author: content_author,
-      content_type: 'comment',
-    });
+  async findAuthorComments(author: string): Promise<Contents[]> {
+    return await this.contentsRepo.find({ type: 'comment', author });
   }
 
-  async findAuthorContents(content_author: string): Promise<Contents[]> {
-    return await this.contentsRepo.find({ content_author });
+  async findAuthorContents(author: string): Promise<Contents[]> {
+    return await this.contentsRepo.find({ author });
   }
 
   async remove(id: string): Promise<DeleteResult> {
