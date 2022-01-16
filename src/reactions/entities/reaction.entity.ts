@@ -1,7 +1,23 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Author } from '../../authors/entities/author.entity';
+import { Contents } from '../../contents/entities/content.entity';
 
 @ObjectType()
 export class Reaction {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @PrimaryGeneratedColumn('uuid')
+  @Field(() => String, { description: 'Unique uuid of reaction' })
+  id_reaction: string;
+
+  @Column('uuid')
+  @Field(() => Contents, { description: 'Content of the reaction' })
+  id_content: string;
+
+  @Column('uuid')
+  @Field(() => Author, { description: 'Author of the reaction' })
+  id_author: string;
+
+  @Column('text')
+  @Field(() => String, { description: 'Reaction for the content' })
+  reaction: string;
 }
