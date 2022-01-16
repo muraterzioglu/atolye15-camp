@@ -18,7 +18,7 @@ export class AvatarsService {
     }
 
     // Colors
-    const colorBg = seedColor(name).toHex();
+    const colorBg = seedColor(name.toLocaleLowerCase()).toHex();
     const colorFont = invertColor(colorBg);
 
     // https://stackoverflow.com/questions/51568098/javascript-find-the-inverse-of-a-hex-code
