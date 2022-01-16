@@ -15,11 +15,6 @@ export class ContentsService {
     private readonly authorRepository: Repository<Author>,
   ) {}
 
-  /*
-    TODO: Posts also returns their reactions, authors and comments
-      -> Comments, Reactions by line
-  */
-
   async create(createContentInput: CreateContentInput): Promise<Contents> {
     // Post's can't have a relation with other posts, just comments.
     if (
@@ -43,6 +38,20 @@ export class ContentsService {
 
   async findOne(content_id: string): Promise<Contents> {
     return await this.contentsRepository.findOne(content_id);
+  }
+
+  async findAuthorPosts(content_author: string): Promise<Contents[]> {
+    return await this.contentsRepository.find({
+      content_author: content_author,
+      content_type: 'post',
+    });
+  }
+
+  async findAuthorComments(content_author: string): Promise<Contents[]> {
+    return await this.contentsRepository.find({
+      content_author: content_author,
+      content_type: 'comment',
+    });
   }
 
   async postAuthor(author_id: string): Promise<Author> {

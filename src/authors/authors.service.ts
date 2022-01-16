@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateAuthorInput } from './dto/create-author.input';
-import { UpdateAuthorInput } from './dto/update-author.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DeleteResult, Repository } from 'typeorm';
+import { Author } from './entities/author.entity';
+import { Contents } from '../contents/entities/content.entity';
 
 @Injectable()
 export class AuthorsService {
-  create(createAuthorInput: CreateAuthorInput) {
-    return 'This action adds a new author';
+  constructor(
+    @InjectRepository(Author)
+    private readonly authorRepository: Repository<Author>,
+
+    @InjectRepository(Contents)
+    private readonly contentsRepository: Repository<Contents>,
+  ) {}
+
+  async create(createAuthorInput: CreateAuthorInput): Promise<Author> {
+    const newAuthor = this.authorRepository.create(createAuthorInput);
+    return await this.authorRepository.save(newAuthor);
   }
 
-  findAll() {
-    return `This action returns all authors`;
+  async findAll(): Promise<Author[]> {
+    return await this.authorRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} author`;
+  async findOne(id: string): Promise<Author> {
+    return await this.authorRepository.findOne(id);
   }
 
-  update(id: number, updateAuthorInput: UpdateAuthorInput) {
-    return `This action updates a #${id} author`;
-  }
+  async remove(content_author: string): Promise<DeleteResult> {
+    const contents = await this.contentsRepository.find({ content_author });
 
-  remove(id: number) {
-    return `This action removes a #${id} author`;
+    if (contents[0] == undefined) {
+      return await this.authorRepository.delete(content_author);
+    } else {
+      throw new HttpException(
+        'Forbidden: Author still have posts or comments.',
+        HttpStatus.FORBIDDEN,
+      );
+    }
   }
 }

@@ -3,8 +3,23 @@
 # ------------------------------------------------------
 
 type Author {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Unique uuid of author"""
+  author_id: String!
+
+  """Firstname of the author"""
+  author_name: String!
+
+  """Lastname of the author"""
+  author_surname: String!
+
+  """E-Mail address of the author"""
+  author_mail: String!
+
+  """All the posts made by author"""
+  author_posts: [Contents!]!
+
+  """All the comments made by author"""
+  author_comments: [Contents!]!
 }
 
 type Contents {
@@ -15,7 +30,7 @@ type Contents {
   content_type: String!
 
   """Author of the content"""
-  content_author: String!
+  content_author: Author!
 
   """If it's a comment, define post here"""
   content_relation: String
@@ -34,7 +49,7 @@ type Reaction {
 
 type Query {
   authors: [Author!]!
-  author(id: Int!): Author!
+  author(id: String!): Author!
   contents(content_type: String): [Contents!]!
   content(content_id: String!): Contents!
   reactions: [Reaction!]!
@@ -43,8 +58,7 @@ type Query {
 
 type Mutation {
   createAuthor(createAuthorInput: CreateAuthorInput!): Author!
-  updateAuthor(updateAuthorInput: UpdateAuthorInput!): Author!
-  removeAuthor(id: Int!): Author!
+  removeAuthor(author_id: String!): Author!
   createContent(createContentInput: CreateContentInput!): Contents!
   removeContent(content_id: String!): Contents!
   createReaction(createReactionInput: CreateReactionInput!): Reaction!
@@ -53,14 +67,14 @@ type Mutation {
 }
 
 input CreateAuthorInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
+  """Firstname of the author"""
+  author_name: String!
 
-input UpdateAuthorInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  """Lastname of the author"""
+  author_surname: String!
+
+  """E-Mail address of the author, should be unique"""
+  author_mail: String!
 }
 
 input CreateContentInput {
