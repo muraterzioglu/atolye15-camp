@@ -57,7 +57,7 @@ export class AvatarsService {
 
     if (shape == 'circle') {
       context.arc(sizeHalf, sizeHalf, sizeHalf, 0, Math.PI * 2, false);
-    } else if (shape == 'square') {
+    } else {
       context.rect(0, 0, size, size);
     }
 
