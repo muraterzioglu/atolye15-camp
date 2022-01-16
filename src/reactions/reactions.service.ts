@@ -24,6 +24,14 @@ export class ReactionsService {
     return await this.reactionsRepo.findOne(id_reaction);
   }
 
+  async findReactionsByAuthor(id_author: string): Promise<Reaction[]> {
+    return await this.reactionsRepo.find({ id_author });
+  }
+
+  async findReactionsByContent(id_content: string): Promise<Reaction[]> {
+    return await this.reactionsRepo.find({ id_content });
+  }
+
   async remove(id_reaction: string): Promise<Reaction> {
     const reaction = this.reactionsRepo.findOne(id_reaction);
     await this.reactionsRepo.delete(id_reaction);

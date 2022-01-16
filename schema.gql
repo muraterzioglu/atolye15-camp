@@ -20,6 +20,9 @@ type Author {
 
   """All the comments made by author"""
   author_comments: [Contents!]!
+
+  """All the reactions made by author"""
+  author_reactions: [Reaction!]!
 }
 
 type Contents {
@@ -40,6 +43,9 @@ type Contents {
 
   """Full context of the content"""
   content_context: String!
+
+  """All the reactions made by author"""
+  content_reactions: [Reaction!]!
 }
 
 type Reaction {

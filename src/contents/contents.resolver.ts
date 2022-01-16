@@ -11,12 +11,15 @@ import { Contents } from './entities/content.entity';
 import { CreateContentInput } from './dto/create-content.input';
 import { Author } from '../authors/entities/author.entity';
 import { AuthorsService } from '../authors/authors.service';
+import { ReactionsService } from '../reactions/reactions.service';
+import { Reaction } from '../reactions/entities/reaction.entity';
 
 @Resolver(() => Contents)
 export class ContentsResolver {
   constructor(
     private readonly contentsService: ContentsService,
     private readonly authorService: AuthorsService,
+    private readonly reactionServices: ReactionsService,
   ) {}
 
   @Mutation(() => Contents)
@@ -38,6 +41,15 @@ export class ContentsResolver {
   async content_author(@Parent() contents: Contents): Promise<Author> {
     const { content_author } = contents;
     return this.authorService.findOne(content_author);
+  }
+
+  @ResolveField('content_reactions', () => [Reaction], {
+    description: 'All the reactions made by author',
+  })
+  async content_reactions(
+    @Parent() { content_id }: Contents,
+  ): Promise<Reaction[]> {
+    return await this.reactionServices.findReactionsByContent(content_id);
   }
 
   @Query(() => Contents, { name: 'content' })

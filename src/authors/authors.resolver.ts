@@ -12,12 +12,15 @@ import { CreateAuthorInput } from './dto/create-author.input';
 import { Contents } from '../contents/entities/content.entity';
 import { ContentsService } from '../contents/contents.service';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { ReactionsService } from '../reactions/reactions.service';
+import { Reaction } from '../reactions/entities/reaction.entity';
 
 @Resolver(() => Author)
 export class AuthorsResolver {
   constructor(
     private readonly authorsService: AuthorsService,
     private readonly contentsService: ContentsService,
+    private readonly reactionServices: ReactionsService,
   ) {}
 
   @Mutation(() => Author)
@@ -51,6 +54,13 @@ export class AuthorsResolver {
   async author_comments(@Parent() author: Author): Promise<Contents[]> {
     const { author_id } = await author;
     return await this.contentsService.findAuthorComments(author_id);
+  }
+
+  @ResolveField('author_reactions', () => [Reaction], {
+    description: 'All the reactions made by author',
+  })
+  async author_reactions(@Parent() { author_id }: Author): Promise<Reaction[]> {
+    return await this.reactionServices.findReactionsByAuthor(author_id);
   }
 
   @Mutation(() => Author)

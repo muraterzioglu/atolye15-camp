@@ -5,9 +5,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Author } from './entities/author.entity';
 import { Contents } from '../contents/entities/content.entity';
 import { ContentsService } from '../contents/contents.service';
+import { Reaction } from '../reactions/entities/reaction.entity';
+import { ReactionsService } from '../reactions/reactions.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Author, Contents])],
-  providers: [AuthorsResolver, AuthorsService, ContentsService],
+  imports: [TypeOrmModule.forFeature([Author, Contents, Reaction])],
+  providers: [
+    AuthorsResolver,
+    AuthorsService,
+    ContentsService,
+    ReactionsService,
+  ],
 })
 export class AuthorsModule {}
