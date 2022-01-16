@@ -2,29 +2,122 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  """Example field (placeholder)"""
-  exampleField: Int!
+type Author {
+  """Unique uuid of author"""
+  id: String!
+
+  """Firstname of the author"""
+  name: String!
+
+  """Lastname of the author"""
+  surname: String!
+
+  """E-Mail address of the author"""
+  mail: String!
+
+  """All the posts made by author"""
+  posts: [Contents!]!
+
+  """All the comments made by author"""
+  comments: [Contents!]!
+
+  """All the reactions given by author"""
+  reactions: [Reaction!]!
+}
+
+type Contents {
+  """Unique uuid of content"""
+  id: String!
+
+  """Type of the content, post or comment"""
+  type: String!
+
+  """Author of the content"""
+  author: Author!
+
+  """If it's a comment, define post here"""
+  relation: String
+
+  """Title of the content"""
+  title: String!
+
+  """Full context of the content"""
+  context: String!
+  content_author: Author!
+
+  """All the comments made for post"""
+  content_comments: [Contents!]!
+
+  """All the reactions made by author"""
+  reactions: [Reaction!]!
+}
+
+type Reaction {
+  """Unique uuid of reaction"""
+  id: String!
+  content: Contents!
+  author: Author!
+
+  """Reaction for the content"""
+  reaction: String!
 }
 
 type Query {
-  users: [User!]!
-  user(id: Int!): User!
+  authors: [Author!]!
+  author(id: String!): Author!
+  contents(content_type: String): [Contents!]!
+  content(id: String!): Contents!
+  reactions: [Reaction!]!
+  reaction(id_reaction: String!): Reaction!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  createAuthor(createAuthorInput: CreateAuthorInput!): Author!
+  removeAuthor(author_id: String!): Author!
+  createContent(createContentInput: CreateContentInput!): Contents!
+  removeContent(id: String!): Contents!
+  createReaction(createReactionInput: CreateReactionInput!): Reaction!
+  removeReaction(id: String!): Reaction!
 }
 
-input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+input CreateAuthorInput {
+  """Firstname of the author"""
+  name: String!
+
+  """Lastname of the author"""
+  surname: String!
+
+  """E-Mail address of the author, should be unique"""
+  mail: String!
+
+  """E-Mail address of the author, should be unique"""
+  avatar: String!
 }
 
-input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+input CreateContentInput {
+  """Type of the content, post or comment"""
+  type: String!
+
+  """Author of the content"""
+  author: String!
+
+  """Title of the content"""
+  title: String!
+
+  """Full context of the content"""
+  relation: String
+
+  """Full context of the content"""
+  context: String!
+}
+
+input CreateReactionInput {
+  """Content of the reaction"""
+  content: String!
+
+  """Author of the reaction"""
+  author: String!
+
+  """Reaction for the content"""
+  reaction: String!
 }
