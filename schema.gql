@@ -31,8 +31,6 @@ type Contents {
 
   """Type of the content, post or comment"""
   type: String!
-
-  """Author of the content"""
   author: Author!
 
   """If it's a comment, define post here"""
@@ -43,10 +41,9 @@ type Contents {
 
   """Full context of the content"""
   context: String!
-  content_author: Author!
 
   """All the comments made for post"""
-  content_comments: [Contents!]!
+  comments: [Contents!]!
 
   """All the reactions made by author"""
   reactions: [Reaction!]!
@@ -65,15 +62,15 @@ type Reaction {
 type Query {
   authors: [Author!]!
   author(id: String!): Author!
-  contents(content_type: String): [Contents!]!
+  contents(type: String): [Contents!]!
   content(id: String!): Contents!
   reactions: [Reaction!]!
-  reaction(id_reaction: String!): Reaction!
+  reaction(id: String!): Reaction!
 }
 
 type Mutation {
   createAuthor(createAuthorInput: CreateAuthorInput!): Author!
-  removeAuthor(author_id: String!): Author!
+  removeAuthor(id: String!): Author!
   createContent(createContentInput: CreateContentInput!): Contents!
   removeContent(id: String!): Contents!
   createReaction(createReactionInput: CreateReactionInput!): Reaction!

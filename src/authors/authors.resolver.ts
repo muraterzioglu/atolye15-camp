@@ -63,12 +63,10 @@ export class AuthorsResolver {
 
   @Mutation(() => Author)
   async removeAuthor(
-    @Args('author_id', { type: () => String }) author_id: string,
+    @Args('id', { type: () => String }) id: string,
   ): Promise<Author> {
-    const authorThemself = await this.authorsService.findOne(author_id);
-    const authorContents = await this.contentsService.findAuthorContents(
-      author_id,
-    );
+    const authorThemself = await this.authorsService.findOne(id);
+    const authorContents = await this.contentsService.findAuthorContents(id);
 
     if (!authorThemself) {
       throw new HttpException(
@@ -78,7 +76,7 @@ export class AuthorsResolver {
     }
 
     if (authorContents[0] == undefined) {
-      return await this.authorsService.remove(author_id);
+      return await this.authorsService.remove(id);
     } else {
       throw new HttpException(
         'Forbidden: Author still have posts or comments.',
