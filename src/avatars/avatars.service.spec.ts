@@ -15,4 +15,10 @@ describe('AvatarsService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('should be return buffer', () => {
+    expect(service.avatar('Murat Terzioğlu', 420, 'circle')).toBeInstanceOf(
+      Buffer,
+    );
+  });
 });
