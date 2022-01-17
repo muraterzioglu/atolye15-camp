@@ -12,9 +12,4 @@ export class CreateAuthorInput {
     description: 'E-Mail address of the author, should be unique',
   })
   mail: string;
-
-  @Field(() => String, {
-    description: 'E-Mail address of the author, should be unique',
-  })
-  avatar: string;
 }
