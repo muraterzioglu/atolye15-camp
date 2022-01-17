@@ -18,7 +18,8 @@ export class AvatarsService {
     }
 
     // Colors
-    const colorBg = seedColor(name).toHex();
+    // For seed generation we make the name lover case to prevent type errors like "JoHn DoE"
+    const colorBg = seedColor(name.toLocaleLowerCase()).toHex();
     const colorFont = invertColor(colorBg);
 
     // https://stackoverflow.com/questions/51568098/javascript-find-the-inverse-of-a-hex-code

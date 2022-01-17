@@ -43,6 +43,19 @@ export class ContentsResolver {
     return this.authorService.findOne(author);
   }
 
+  @ResolveField('relation', () => Contents, {
+    description: 'Relation made for post',
+  })
+  async relation(@Parent() { id }: Contents): Promise<Contents> {
+    const content = await this.contentsService.findOne(id);
+    if (content.type == 'post') {
+      throw new HttpException(
+        "Forbidden Action: Posts can't have relation. relation is only accessible by comments",
+        HttpStatus.FORBIDDEN,
+      );
+    } else return content;
+  }
+
   @ResolveField('comments', () => [Contents], {
     description: 'All the comments made for post',
   })
@@ -56,7 +69,7 @@ export class ContentsResolver {
     } else return await this.contentsService.findPostComments(id);
   }
 
-  @ResolveField('reactions', () => [Reaction], {
+  @ResolveField('reaction', () => [Reaction], {
     description: 'All the reactions made by author',
   })
   async reactions(@Parent() { id }: Contents): Promise<Reaction[]> {

@@ -34,7 +34,7 @@ type Contents {
   author: Author!
 
   """If it's a comment, define post here"""
-  relation: String
+  relation: Contents
 
   """Title of the content"""
   title: String!
@@ -46,7 +46,7 @@ type Contents {
   comments: [Contents!]!
 
   """All the reactions made by author"""
-  reactions: [Reaction!]!
+  reaction: [Reaction!]!
 }
 
 type Reaction {
@@ -86,9 +86,6 @@ input CreateAuthorInput {
 
   """E-Mail address of the author, should be unique"""
   mail: String!
-
-  """E-Mail address of the author, should be unique"""
-  avatar: String!
 }
 
 input CreateContentInput {

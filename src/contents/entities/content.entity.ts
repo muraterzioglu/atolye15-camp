@@ -18,7 +18,7 @@ export class Contents {
   author: string;
 
   @Column('uuid')
-  @Field(() => String, {
+  @Field(() => Contents, {
     nullable: true,
     description: "If it's a comment, define post here",
   })
