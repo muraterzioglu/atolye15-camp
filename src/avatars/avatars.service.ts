@@ -5,36 +5,32 @@ import seedColor from 'seed-color';
 
 @Injectable()
 export class AvatarsService {
-  avatar(name: string, size: number, shape: string): Buffer {
-    // Get Letters
-    const named = name.split(' ');
-    const nameFirst = named[0];
-    const letterFirst = nameFirst.charAt(0);
-    let text = letterFirst;
+  avatar(parName: string, parSize: number, parShape: string): Buffer {
+    const name = parName.split(' ');
+    const letter = {
+      first: name[0].charAt(0),
+      last: name[name.length - 1].charAt(0),
+    };
 
-    if (named.length > 1) {
-      // If the user have more than one name or have surname we calc the last letter.
-      text = letterFirst + '' + named[named.length - 1].charAt(0);
-    }
+    const text = `${letter.first}${letter.last}`;
 
-    // Colors
-    // For seed generation we make the name lover case to prevent type errors like "JoHn DoE"
-    const colorBg = seedColor(name.toLocaleLowerCase()).toHex();
+    // Colors: For seed generation we make the name lover case to prevent type errors like "JoHn DoE"
+    const colorBg = seedColor(parName.toLocaleLowerCase()).toHex();
     const colorFont = invertColor(colorBg);
 
     // Canvas Settings
-    const sizeHalf = Math.round(size / 2);
-    const fontSize = Math.round(size / 2);
-    const posY = Math.round(size / 1.5);
+    const sizeHalf = Math.round(parSize / 2);
+    const fontSize = Math.round(parSize / 2);
+    const posY = Math.round(parSize / 1.5);
 
-    const canvas = createCanvas(size, size);
+    const canvas = createCanvas(parSize, parSize);
     const context = canvas.getContext('2d');
     context.textAlign = 'center';
 
-    if (shape == 'circle') {
+    if (parShape == 'circle') {
       context.arc(sizeHalf, sizeHalf, sizeHalf, 0, Math.PI * 2, false);
     } else {
-      context.rect(0, 0, size, size);
+      context.rect(0, 0, parSize, parSize);
     }
 
     context.fillStyle = colorBg;
