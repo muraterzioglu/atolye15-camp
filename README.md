@@ -3,15 +3,14 @@
 </p>
 
 <p align="center">
-    İki yıllık bir aradan sonra Atölye15 <a href="https://stajkampi.com" target="_blank">8. Staj Kampı</a> bizimle beraberdi! Bana verdikleri bu şans ve challange'lar için tüm ekibe teşekkür ederim!</p>
+    After two years of pandemic break, Atölye15 <a href="https://stajkampi.com" target="_blank">8. Intern Bootcamp</a> with us! I would like to thanks the all the team members for giving me this opportunity and a challenge to improve myself! (Spoiler alert: it did!)</p>
 <p align="center">
 
-## Kullanım
+## Usage
+You can find all the details about project at our [wiki page](https://github.com/muraterzioglu/atolye15-camp/wiki). Tasks, applications ve GraphQL schemas explained in here!
 
-Gerekli tüm açıklamaları 45 dakika da yapılmış [wiki sayfamızdan](https://github.com/muraterzioglu/atolye15-camp/wiki) bulabilirsiniz. Görevler, uygulamalar ve GraphQL şemaları orada açıklandı!
-
-## Kurulum
-Aslen Yarn 2 ile beraber PnP kullanmak istemiştim ama anlaşılan Apollo ile sorunlar çıkarıyor, bu yüzden  `nodeLinker: node-modules` olarak ayarlandı. 
+## Setup
+Actually I would like to use Yarn 2 with Plug'n'Play but seems like Apollo has some problems with that, that's why `nodeLinker` option set as `node-modules`
 ```bash
 $ yarn install
 ```
@@ -29,20 +28,7 @@ $ yarn start:dev
 $ yarn start:prod
 ```
 
-## Test
-Saat 8'e kadar vaktim var. Bakalım test yazabilecek miyim?
-```bash
-# unit tests
-$ yarn test
-
-# e2e tests
-$ yarn test:e2e
-
-# test coverage
-$ yarn test:cov
-```
-
-## Linklerim
+## Links
 
 - Twitter - [@muraterzioglu](https://twitter.com/_muraterzioglu)
 - LinkedIn - [Murat Terzioğlu](https://linkedin.com/in/muraterzioglu)

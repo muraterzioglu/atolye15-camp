@@ -1,10 +1,10 @@
 {
   "name": "a15-backend",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "1.0.1",
+  "description": "Backend Tasks given by @atolye15 during 2022 Intern Bootcamp",
+  "author": "Murat Terzioğlu <@_muraterzioglu>",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
