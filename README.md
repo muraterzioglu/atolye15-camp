@@ -33,3 +33,11 @@ $ yarn start:prod
 - Twitter - [@muraterzioglu](https://twitter.com/_muraterzioglu)
 - LinkedIn - [Murat Terzioğlu](https://linkedin.com/in/muraterzioglu)
 - Atölye15 - [Web Page](https://atolye15.com/)
+
+
+## To-Do
+
+```
+subscriptions-transport-ws@npm:0.11.0 is deprecated: The `subscriptions-transport-ws` package is no longer maintained. We recommend you use `graphql-ws` instead. For help migrating Apollo software to `graphql-ws`, see https://www.apollographql.com/docs/apollo-server/data/subscriptions/
+#switching-from-subscriptions-transport-ws    For general help using `graphql-ws`, see https://github.com/enisdenjo/graphql-ws/blob/master/README.md
+```
