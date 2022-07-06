@@ -21,14 +21,14 @@ export class AuthorsService {
   }
 
   async findOne(id: string): Promise<Author> {
-    return await this.authorRepository.findOne(id);
+    return await this.authorRepository.findOne({ where: { id } });
   }
 
-  async remove(content_author: string): Promise<Author> {
-    const author = this.authorRepository.findOne(content_author);
+  async remove(id: string): Promise<Author> {
+    const author = this.authorRepository.findOne({ where: { id } });
     // For proper response we save user before delete
 
-    await this.authorRepository.delete(content_author);
+    await this.authorRepository.delete(id);
     return author;
   }
 }

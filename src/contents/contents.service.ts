@@ -29,30 +29,37 @@ export class ContentsService {
 
   async findAll(type: 'comment' | 'post' | 'all'): Promise<Contents[]> {
     if (type === 'all') return await this.contentsRepo.find();
-    else return await this.contentsRepo.find({ type });
+    else return await this.contentsRepo.find({ where: { type } });
   }
 
   async findOne(id: string): Promise<Contents> {
-    return await this.contentsRepo.findOne(id);
+    return await this.contentsRepo.findOne({ where: { id } });
   }
 
   async findAuthorPosts(author: string): Promise<Contents[]> {
-    return await this.contentsRepo.find({ author, type: 'post' });
+    return await this.contentsRepo.find({ where: { author, type: 'post' } });
   }
 
   async findPostComments(content_id: string): Promise<Contents[]> {
     return await this.contentsRepo.find({
-      relation: content_id,
-      type: 'comment',
+      where: {
+        relation: content_id,
+        type: 'comment',
+      },
     });
   }
 
   async findAuthorComments(author: string): Promise<Contents[]> {
-    return await this.contentsRepo.find({ type: 'comment', author });
+    return await this.contentsRepo.find({
+      where: {
+        author,
+        type: 'comment',
+      },
+    });
   }
 
   async findAuthorContents(author: string): Promise<Contents[]> {
-    return await this.contentsRepo.find({ author });
+    return await this.contentsRepo.find({ where: { author } });
   }
 
   async remove(id: string): Promise<DeleteResult> {
