@@ -21,19 +21,19 @@ export class ReactionsService {
   }
 
   async findOne(id: string): Promise<Reaction> {
-    return await this.reactionsRepo.findOne(id);
+    return await this.reactionsRepo.findOne({ where: { id } });
   }
 
   async findReactionsByAuthor(author: string): Promise<Reaction[]> {
-    return await this.reactionsRepo.find({ author });
+    return await this.reactionsRepo.find({ where: { author } });
   }
 
   async findReactionsByContent(content: string): Promise<Reaction[]> {
-    return await this.reactionsRepo.find({ content });
+    return await this.reactionsRepo.find({ where: { content } });
   }
 
   async remove(id: string): Promise<Reaction> {
-    const reaction = this.reactionsRepo.findOne(id);
+    const reaction = this.reactionsRepo.findOne({ where: { id } });
     await this.reactionsRepo.delete(id);
     return reaction;
   }
